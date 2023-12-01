@@ -1,0 +1,31 @@
+
+def is_int(char):
+    if char in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
+        return True
+    return False
+
+
+def concatenate(string):
+    for char in string:
+        if is_int(char): 
+            firstInt = char
+            break
+    for char in reversed(string):
+        if is_int(char):
+            lastInt = char
+            break
+    return firstInt + lastInt
+
+def sum_all(list):
+    sum = 0;
+    for item in list:
+        sum = sum + (int)(concatenate(item))
+    return sum
+
+def sum_all(f):
+    with open (f) as file: 
+        sum = 0;
+        for line in file: 
+            string = line.rstrip()
+            sum = sum + (int(concatenate(string)))
+    return sum
