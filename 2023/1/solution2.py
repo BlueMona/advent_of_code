@@ -16,7 +16,6 @@ def is_int(char):
         return True
     return False
 
-#
 def contains_int(string): 
     for char in string: 
         if is_int(char): 
@@ -63,14 +62,14 @@ def concatenate(string):
     return first + last 
 
 def sum_all(list):
-    sum = 0;
+    sum = 0
     for item in list:
         sum = sum + (int)(concatenate(item))
     return sum
 
 def sum_all(f):
     with open (f) as file: 
-        sum = 0;
+        sum = 0
         for line in file: 
             string = line.rstrip()
             sum = sum + (int(concatenate(string)))
