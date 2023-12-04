@@ -56,7 +56,7 @@ def seek_numbers(string):
             else: 
                 left +=1 
                 right +=1
-    return (numbers, symbols)
+    return (numbers, symbols)      
 
 def scan(f):
     with open (f) as file:
@@ -70,27 +70,32 @@ def scan(f):
 
         i = 0
         sum = 0
-        for line in numbers:            
-            for item in line:
-                itemToAdd = False
+        gearcount = 0
+        actual_gears = 0
 
-                symbol_lefts = [d.get('left', None) for d in symbols[i]]
-                symbol_rights = [d.get('right', None) for d in symbols[i]]
-                
-                if(len(symbols[i])> 0 and len(symbol_rights)>0 and len(symbol_lefts)>0 and item["left"]) in symbol_rights or (item["right"]) in symbol_lefts:
-                    itemToAdd = True     
-                
-                if(i > 0 and len(symbols[i-1])> 0):
-                    for symbol in symbols[i-1]: 
-                        if(symbol["left"] >= item["left"] - 1 and symbol["right"] <= item["right"] + 1):
-                            itemToAdd = True   
-
-                if(i < len(numbers) - 1 and len(symbols[i+1])> 0):
-                    for symbol in symbols[i+1]: 
-                        if(symbol["left"] >= item["left"] - 1 and symbol["right"] <= item["right"] + 1):
-                            itemToAdd = True
-                
-                if itemToAdd:
-                    sum += int(item["number"])
-            i += 1
+        for line in symbols:
+            #adjacent = false          
+            for symbol in line: 
+                if symbol["symbol"] == '*':
+                    gearcount += 1
+                    factors = []  
+                    for number in numbers[i]:
+                        if(symbol["left"] == number["right"] or symbol["right"] == number["left"]):
+                            #adjacent = True
+                            factors.append(number["number"])
+                    if(i > 0 and len(numbers[i-1])> 0):
+                        for number in numbers[i-1]:
+                            if(symbol["left"] >= number["left"] -1 and symbol["right"] <= number["right"] + 1):
+                                #adjacent = True
+                                factors.append(number["number"])
+                    if(i < len(symbols) - 1 and len(numbers[i+1])> 0):
+                        for number in numbers[i+1]:
+                            if(symbol["left"] >= number["left"] - 1 and symbol["right"] <= number["right"] + 1):
+                                #adjacent = True
+                                factors.append(number["number"])
+                    if len(factors) == 2:
+                        actual_gears += 1
+                        product = int(factors[0])*int(factors[1])
+                        sum += product             
+            i = i + 1
         return sum  
